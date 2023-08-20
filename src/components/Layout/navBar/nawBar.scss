@@ -1,0 +1,54 @@
+.navBar {
+	width: 300px;
+	height: 100%;
+	background-color: #f8f7fa;
+	transition: 0.4s ease-in;
+	.directorie {
+		margin: 22px 0 0 7%;
+		list-style-type: none;
+
+		.direcrorie-name {
+			width: 258px;
+			height: 50px;
+			padding-left: 10px;
+			display: flex;
+			align-items: center;
+			border-radius: 10px;
+			cursor: pointer;
+
+			&:before {
+				content: url(../../../icons/list.svg);
+				display: block;
+				width: 30px;
+			}
+			.navBar-link {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				text-decoration: none;
+				color: black;
+			}
+			&:hover {
+				background-color: #dcdcdc;
+			}
+		}
+	}
+	.add-new-list-button {
+		width: 280px;
+		height: 40px;
+		margin: 10px auto;
+		background: none;
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
+		&:hover {
+			background-color: #dcdcdc4d;
+		}
+	}
+}
+.activeNavBar {
+	margin-left: -300px;
+}
