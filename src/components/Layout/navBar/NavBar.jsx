@@ -1,8 +1,10 @@
+import "./navBar.scss";
 import { useState } from "react";
 import NewDirectorieForm from "./NewDirectorieForm";
 import { NavLink } from "react-router-dom";
+import { PlusImg } from "../../../icons/PlusImg";
 
-export const NavBar = ({ changeClassName, addNewTask, tasks, getShowDirectorie }) => {
+export const NavBar = ({ changeClassName, addNewTask, tasks }) => {
 	const [stateNewDirectorie, setStateNewDirectorie] = useState(false);
 	const createNewDirectorie = () => {
 		setStateNewDirectorie(!stateNewDirectorie);
@@ -24,11 +26,7 @@ export const NavBar = ({ changeClassName, addNewTask, tasks, getShowDirectorie }
 		<div className={changeClassName ? "navBar" : "navBar activeNavBar"}>
 			<ul className="directorie">
 				{directorieTitles.map((directorie) => (
-					<li
-						key={directorie}
-						className="direcrorie-name"
-						onClick={() => getShowDirectorie(directorie)}
-					>
+					<li key={directorie} className="direcrorie-name">
 						<NavLink to={`/${directorie}`} className={"navBar-link"}>
 							{" "}
 							{directorie}
@@ -44,22 +42,7 @@ export const NavBar = ({ changeClassName, addNewTask, tasks, getShowDirectorie }
 				) : null}
 			</ul>
 			<button type="button" className="add-new-list-button" onClick={createNewDirectorie}>
-				<svg
-					width="20px"
-					height="20px"
-					viewBox="0 0 24 24"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						d="M4 12H20M12 4V20"
-						stroke="#de797a"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					/>
-				</svg>
-				<span>Add new list</span>
+				<PlusImg /> <span>Add new list</span>
 			</button>
 		</div>
 	);

@@ -1,5 +1,6 @@
 .tasks-page {
 	width: 100%;
+	position: relative;
 }
 .tasks {
 	width: 700px;
@@ -8,6 +9,38 @@
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
+	position: relative;
+	.priority-1 {
+		&::after {
+			content: "";
+			position: absolute;
+			right: -15px;
+			width: 10px;
+			height: 10px;
+			background-color: red;
+		}
+	}
+	.priority-2 {
+		&::after {
+			content: "";
+			position: absolute;
+			right: -15px;
+			width: 10px;
+			height: 10px;
+			background-color: blue;
+		}
+	}
+	.priority-3 {
+		&::after {
+			content: "";
+			position: absolute;
+			right: -15px;
+			width: 10px;
+			height: 10px;
+			background-color: green;
+		}
+	}
+
 	.tasks-title {
 		font-size: 30px;
 		font-weight: bold;
@@ -29,7 +62,7 @@
 				}
 			}
 			.task-options {
-				display: flex;
+				display: none;
 				gap: 5px;
 				.task-edit {
 					width: 30px;
@@ -47,6 +80,11 @@
 					&:hover {
 						background-color: #d3d3d3;
 					}
+				}
+			}
+			&:hover {
+				.task-options {
+					display: flex;
 				}
 			}
 		}

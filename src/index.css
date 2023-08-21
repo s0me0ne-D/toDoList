@@ -1,7 +1,4 @@
 @import url(./_reset.scss);
-@import url(./components/Layout/header/header.scss);
-@import url(./components/Layout/navBar/nawBar.scss);
-@import url(./components/tasksPage.scss);
 
 body {
 	margin: 0;

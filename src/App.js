@@ -7,7 +7,7 @@ function App() {
 	const [tasks, setTasks] = useState([]);
 
 	return (
-		<tasksContext.Provider value={(tasks, setTasks)}>
+		<tasksContext.Provider value={{ tasks, setTasks }}>
 			<RouterProvider router={router} />;
 		</tasksContext.Provider>
 	);
