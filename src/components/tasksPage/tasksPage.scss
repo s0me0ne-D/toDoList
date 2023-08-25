@@ -4,7 +4,7 @@
 }
 .tasks {
 	width: 700px;
-	height: 100%;
+	height: fit-content;
 	margin: 30px auto;
 	display: flex;
 	flex-direction: column;
@@ -40,7 +40,10 @@
 			background-color: green;
 		}
 	}
-
+	.checked {
+		opacity: 0.5;
+		filter: grayscale(1);
+	}
 	.tasks-title {
 		font-size: 30px;
 		font-weight: bold;
@@ -48,15 +51,25 @@
 	.task-list {
 		.task {
 			width: 100%;
-			height: 30px;
 			margin-top: 20px;
 			font-size: 17px;
 			display: flex;
+			flex-direction: row;
 			justify-content: space-between;
 			align-items: center;
 			border-bottom: 1px solid #000;
+			.task-container {
+				width: 100%;
+			}
+			.task-main {
+				width: 100%;
+				height: 30px;
+				display: flex;
+				justify-content: space-between;
+			}
 
 			.task-wrapper {
+				width: 100%;
 				.task-name {
 					margin-left: 5px;
 				}
@@ -86,6 +99,15 @@
 				.task-options {
 					display: flex;
 				}
+			}
+			.task-description {
+				display: block;
+				width: 95%;
+				min-height: 20px;
+				overflow: hidden;
+				margin: 5px 20px;
+				color: #8b8b8b;
+				font-size: 14px;
 			}
 		}
 	}

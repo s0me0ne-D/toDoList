@@ -15,6 +15,9 @@
 			align-items: center;
 			border-radius: 10px;
 			cursor: pointer;
+			&.activ-directory {
+				background-color: #dcdcdc;
+			}
 
 			&:before {
 				content: url(../../../icons/list.svg);
@@ -29,6 +32,7 @@
 				text-decoration: none;
 				color: black;
 			}
+
 			&:hover {
 				background-color: #dcdcdc;
 			}

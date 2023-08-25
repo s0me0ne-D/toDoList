@@ -1,10 +1,9 @@
 import { router } from "./Router";
 import { RouterProvider } from "react-router-dom";
 import { tasksContext } from "./context/Context";
-import { useState } from "react";
-
+import { useLocalStorage } from "./components/hooks/useLocalStorage";
 function App() {
-	const [tasks, setTasks] = useState([]);
+	const [tasks, setTasks] = useLocalStorage([], "ToDoList");
 
 	return (
 		<tasksContext.Provider value={{ tasks, setTasks }}>

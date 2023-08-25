@@ -1,6 +1,15 @@
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./newTaskForm.scss";
-export const NewTaskForm = ({ setTasks, getShowNewTaskForm, tasks, currentDirectory }) => {
+export const NewTaskForm = ({
+	setTasks,
+	getShowNewTaskForm,
+	tasks,
+	currentDirectory,
+	editTaskIndex,
+	setEditTaskIndex,
+}) => {
+	const [taskId, setTaskId] = useState("");
+
 	const [taskName, setTaskName] = useState("");
 	const getTaskName = (event) => setTaskName(event.target.value);
 
@@ -10,29 +19,47 @@ export const NewTaskForm = ({ setTasks, getShowNewTaskForm, tasks, currentDirect
 	const [priority, setPriority] = useState("p3");
 	const changePriority = (event) => setPriority(event.target.value);
 
+	useEffect(() => {
+		if (editTaskIndex !== undefined) {
+			const editTask = currentDirectory.thisDirectoryTasks[editTaskIndex];
+			setTaskName(editTask.taskName);
+			setDescription(editTask.description);
+			setPriority(editTask.priority);
+		}
+	}, []);
+
 	const onSubmit = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
-		//change tasks
+
 		const updatedTasks = [...tasks];
-		const updatedIndex = updatedTasks.findIndex((task) => task.title === currentDirectory.title);
-		if (updatedIndex !== -1) {
-			updatedTasks[updatedIndex].thisDirectoryTasks.push({ taskName, description, priority });
-			// = {
-			// 	...updatedTasks[updatedIndex],
-			// 	taskName,
-			// 	description,
-			// 	priority,
-			// };
+		const updatedIndex = updatedTasks.findIndex((task) => task.id === currentDirectory.id);
+		if (editTaskIndex !== undefined) {
+			const newTask = { taskName, description, priority, taskId, completed: false };
+			updatedTasks[updatedIndex].thisDirectoryTasks.splice(editTaskIndex, 1, newTask);
+			setTasks(updatedTasks);
+			setEditTaskIndex("");
+		} else {
+			if (updatedIndex !== -1) {
+				updatedTasks[updatedIndex].thisDirectoryTasks.push({
+					taskName,
+					description,
+					priority,
+					taskId,
+					completed: false,
+				});
+
+				setTasks(updatedTasks);
+				getShowNewTaskForm();
+			}
 		}
-		setTasks(updatedTasks);
-		getShowNewTaskForm();
 	};
 	const cancelBtn = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
-		getShowNewTaskForm();
+		editTaskIndex !== undefined ? setEditTaskIndex("") : getShowNewTaskForm();
 	};
+	useEffect(() => setTaskId(Math.floor(Math.random() * 100000).toString()), [tasks]);
 
 	return (
 		<div className="new-task">
@@ -44,6 +71,7 @@ export const NewTaskForm = ({ setTasks, getShowNewTaskForm, tasks, currentDirect
 					value={taskName}
 					onChange={getTaskName}
 					onKeyDown={(event) => (event.key === "Enter" ? onSubmit(event) : null)}
+					required={true}
 				/>
 				<textarea
 					type="text"
@@ -53,12 +81,16 @@ export const NewTaskForm = ({ setTasks, getShowNewTaskForm, tasks, currentDirect
 					onChange={getDescription}
 				/>
 				<div className="new-task-footer">
-					<select name="priority" id="new-task-priority" onChange={changePriority}>
+					<select
+						defaultValue={priority}
+						name="priority"
+						id="new-task-priority"
+						onChange={changePriority}
+						onKeyDown={(event) => (event.key === "Enter" ? onSubmit(event) : null)}
+					>
 						<option value="p1">p1</option>
 						<option value="p2">p2</option>
-						<option value="p3" selected>
-							p3
-						</option>
+						<option value="p3">p3</option>
 					</select>
 					<div className="new-task-buttons">
 						<button className="new-task-cancel" onClick={cancelBtn}>

@@ -21,15 +21,22 @@ export const NavBar = ({ changeClassName, addNewTask, tasks }) => {
 		setStateNewDirectorie(false);
 		setNewDirectorie("");
 	};
-	const directorieTitles = tasks.map((task) => task.title);
+	const directorieTitles = tasks.map((task) => `${task.title}-${task.id}`);
+	console.log(directorieTitles);
+
+	const getTitle = (direcrorie) => {
+		const index = direcrorie.indexOf("-");
+		return direcrorie.slice(0, index);
+	};
+
 	return (
 		<div className={changeClassName ? "navBar" : "navBar activeNavBar"}>
 			<ul className="directorie">
 				{directorieTitles.map((directorie) => (
-					<li key={directorie} className="direcrorie-name">
+					<li key={directorie} className={"direcrorie-name"}>
 						<NavLink to={`/${directorie}`} className={"navBar-link"}>
 							{" "}
-							{directorie}
+							{getTitle(directorie)}
 						</NavLink>
 					</li>
 				))}
