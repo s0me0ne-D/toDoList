@@ -1,45 +1,16 @@
 export const DeleteImg = () => (
-	<svg
-		width="20px"
-		height="20px"
-		viewBox="0 0 24 24"
-		fill="none"
-		xmlns="http://www.w3.org/2000/svg"
-	>
+	<svg width="30px" height="30px" viewBox="0 0 1000 1000">
 		<path
-			d="M10 12V17"
-			stroke="#000000"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
+			id="cls-1"
+			d="M717.37,353.41l-30,390.71a61.19,61.19,0,0,1-61.19,61.19H373.85a61.19,61.19,0,0,1-61.19-61.19l-30-390.71"
 		/>
+		<line id="cls-1" x1="600.9" x2="418.7" y1="314.08" y2="314.08" />
 		<path
-			d="M14 12V17"
-			stroke="#000000"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
+			id="cls-1"
+			d="M351.57,314.08H222V276.19a28,28,0,0,1,28-28H438.35c0-.1,0-.19,0-.28,0-29.4,27.61-53.24,61.66-53.24s61.66,23.84,61.66,53.24c0,.09,0,.18,0,.28H750a28,28,0,0,1,28,28v37.89H671.37"
 		/>
-		<path
-			d="M4 7H20"
-			stroke="#000000"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		/>
-		<path
-			d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10"
-			stroke="#000000"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		/>
-		<path
-			d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
-			stroke="#000000"
-			strokeWidth="2"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-		/>
+		<line id="cls-1" x1="397.36" x2="397.36" y1="455.63" y2="700.74" />
+		<line id="cls-1" x1="500" x2="500" y1="455.63" y2="700.74" />
+		<line id="cls-1" x1="602.64" x2="602.64" y1="455.63" y2="700.74" />
 	</svg>
 );

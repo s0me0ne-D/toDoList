@@ -8,7 +8,7 @@ export const router = createBrowserRouter([
 		element: <Layout />,
 		children: [
 			{
-				path: "/:directorieId",
+				path: "/:directoryId",
 				element: <TasksPage />,
 			},
 		],

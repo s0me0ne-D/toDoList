@@ -1,13 +1,14 @@
 .navBar {
-	width: 300px;
+	min-width: 300px;
 	height: 100%;
-	background-color: #f8f7fa;
+	background-color: var(---navBar-background);
 	transition: 0.4s ease-in;
-	.directorie {
+
+	.directory {
 		margin: 22px 0 0 7%;
 		list-style-type: none;
 
-		.direcrorie-name {
+		.direcrory-name {
 			width: 258px;
 			height: 50px;
 			padding-left: 10px;
@@ -15,8 +16,8 @@
 			align-items: center;
 			border-radius: 10px;
 			cursor: pointer;
-			&.activ-directory {
-				background-color: #dcdcdc;
+			&.active {
+				background-color: var(---navBar-directory-background);
 			}
 
 			&:before {
@@ -30,16 +31,16 @@
 				display: flex;
 				align-items: center;
 				text-decoration: none;
-				color: black;
+				color: var(---text-color);
 			}
 
 			&:hover {
-				background-color: #dcdcdc;
+				background-color: var(---navBar-directory-background);
 			}
 		}
 	}
 	.add-new-list-button {
-		width: 280px;
+		width: 50%;
 		height: 40px;
 		margin: 10px auto;
 		background: none;
@@ -48,8 +49,10 @@
 		align-items: center;
 		justify-content: center;
 		gap: 5px;
+		color: var(---text-color);
+
 		&:hover {
-			background-color: #dcdcdc4d;
+			background-color: var(---navBar-directory-background);
 		}
 	}
 }

@@ -1,16 +1,33 @@
+import { useEffect, useState } from "react";
 import { BurgerImg } from "../../../icons/BurgerImg";
-import logo from "../../../logo.png";
 import "./header.scss";
+import { useLocalStorage } from "../../../hooks//useLocalStorage";
 export const Header = ({ onClick }) => {
+	const [checked, setChecked] = useState(false);
+	const [theme, setTheme] = useLocalStorage("", "theme");
+	const bodyElement = document.querySelector("body");
+	bodyElement.className = theme;
+	const toggleTheme = () => {
+		setTheme((prev) => (prev === "light" ? "dark" : "light"));
+	};
+	useEffect(() => setChecked(theme === "light" ? false : true), [theme]);
+
 	return (
 		<header className="header">
 			<div className="header-wrapper">
 				<button className="navButton" onClick={onClick}>
 					<BurgerImg />{" "}
 				</button>
-				<img className="logo" src={logo} />
+				<div className="logo">ToDoList</div>
 				<label className="switch">
-					<input type="checkbox"></input>
+					<input
+						type="checkbox"
+						checked={checked}
+						onChange={() => {
+							setChecked((prev) => !prev);
+							toggleTheme();
+						}}
+					></input>
 					<span className="slider round"></span>
 				</label>
 			</div>

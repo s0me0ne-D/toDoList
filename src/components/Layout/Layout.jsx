@@ -8,28 +8,27 @@ export const Layout = () => {
 	const [activeNavBar, setActiveNavBar] = useState(true);
 	const showNavBar = () => setActiveNavBar((prev) => !prev);
 
-	const [directorieNumber, setDirectorieNumber] = useState("");
+	const [directoryNumber, setdirectoryNumber] = useState("");
 
 	const { tasks, setTasks } = useContext(tasksContext);
-	const addNewTask = (directorieName) => {
+	const addNewTask = (directoryName) => {
 		setTasks([
 			...tasks,
 			{
-				id: `${directorieNumber}`,
-				title: `${directorieName}`,
+				id: `${directoryNumber}`,
+				title: `${directoryName}`,
 				thisDirectoryTasks: [],
 			},
 		]);
 	};
-	useEffect(() => setDirectorieNumber(Math.floor(Math.random() * 100000)), [tasks]);
-
+	useEffect(() => setdirectoryNumber(Math.floor(Math.random() * 100000)), [tasks]);
 	return (
-		<>
+		<div>
 			<Header onClick={showNavBar} />
 			<div className="main">
 				<NavBar changeClassName={activeNavBar} addNewTask={addNewTask} tasks={tasks} />
 				<Outlet />
 			</div>
-		</>
+		</div>
 	);
 };

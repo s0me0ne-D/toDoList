@@ -1,17 +1,18 @@
 import "./tasksPage.scss";
-import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
 import { tasksContext } from "../../context/Context";
 import { DeleteImg } from "../../icons/DeleteImg";
-import { EditImg } from "../../icons/EditImg";
 import { NewTaskForm } from "./NewTaskForm";
 import { PlusImg } from "../../icons/PlusImg";
+import { TaskList } from "./TaskList";
+import { CompletedTaskList } from "./TaskListCompleted";
 
 export const TasksPage = () => {
 	const id = useParams();
 
 	const { tasks, setTasks } = useContext(tasksContext);
-	const currentDirectory = tasks.find((task) => `${task.title}-${task.id}` === id.directorieId);
+	const currentDirectory = tasks.find((task) => `${task.title}-${task.id}` === id.directoryId);
 	const deleteTask = (task) => {
 		const index = currentDirectory.thisDirectoryTasks.indexOf(task);
 		const updatedTasks = [...tasks];
@@ -21,11 +22,17 @@ export const TasksPage = () => {
 		}
 		setTasks(updatedTasks);
 	};
-
+	const deleteDirectory = () => {
+		const updatedTasks = [...tasks];
+		const deleteIndex = updatedTasks.findIndex((task) => task.title === currentDirectory.title);
+		if (deleteIndex !== -1) {
+			updatedTasks.splice(deleteIndex, 1);
+		}
+		setTasks(updatedTasks);
+	};
 	const [showNewTaskForm, setShowNewTaskForm] = useState(false);
 	const getShowNewTaskForm = () => setShowNewTaskForm((prev) => !prev);
-
-	const [editTaskIndex, setEditTaskIndex] = useState("");
+	useEffect(() => setShowNewTaskForm(false), [currentDirectory]);
 
 	const changeTaskStatus = (index) => {
 		const updatedTasks = [...tasks];
@@ -38,88 +45,35 @@ export const TasksPage = () => {
 	};
 
 	const [showCompletedTasks, setShowCompletedTasks] = useState(false);
+	useEffect(() => setShowCompletedTasks(false), [currentDirectory]);
 
-	const checkTaskPriority = (priority) => {
-		switch (priority) {
-			case "p1":
-				return "task priority-1";
-			case "p2":
-				return "task priority-2";
-			case "p3":
-				return "task priority-3";
-			default:
-				break;
-		}
-	};
 	return (
 		<main className="tasks-page">
 			<div className="tasks">
-				<h1 className="tasks-title">{currentDirectory.title}</h1>
-				<ul className="task-list">
-					{currentDirectory.thisDirectoryTasks.map((task, index) => {
-						return index !== editTaskIndex ? (
-							!task.completed && (
-								<li
-									key={task.taskId}
-									className={checkTaskPriority(task.priority)}
-									onClick={() => {
-										changeTaskStatus(index);
-									}}
-								>
-									<div className="task-container">
-										<div className="task-main">
-											<div className="task-wrapper">
-												<input
-													value={task.completed}
-													onChange={() => {
-														changeTaskStatus(index);
-													}}
-													onClick={(event) => event.stopPropagation()}
-													className="checkbox"
-													type="checkbox"
-												/>
-												<label htmlFor="checkbox" className="task-name">
-													{task.taskName}
-												</label>
-											</div>
-											<div className="task-options">
-												<button
-													className="task-edit"
-													onClick={(event) => {
-														event.stopPropagation();
-														setEditTaskIndex(index);
-													}}
-												>
-													<EditImg />
-												</button>
-												<button
-													className="task-delete"
-													onClick={(event) => {
-														event.stopPropagation();
-														deleteTask(task);
-													}}
-												>
-													<DeleteImg />
-												</button>
-											</div>
-										</div>
-										{task.description && <div className="task-description">{task.description}</div>}
-									</div>
-								</li>
-							)
-						) : (
-							<NewTaskForm
-								key={task.taskId}
-								tasks={tasks}
-								setTasks={setTasks}
-								getShowNewTaskForm={getShowNewTaskForm}
-								currentDirectory={currentDirectory}
-								setEditTaskIndex={setEditTaskIndex}
-								editTaskIndex={editTaskIndex}
-							/>
-						);
-					})}
-				</ul>
+				<div className="task-header">
+					<h1 className="tasks-title">{currentDirectory.title}</h1>
+					<div className="task-header-buttons">
+						<NavLink to={"/"} className="task-directory-delete" onClick={deleteDirectory}>
+							<DeleteImg />
+						</NavLink>
+						<button
+							className="task-completed-button"
+							onClick={() => setShowCompletedTasks((prev) => !prev)}
+						>
+							<div className="show-img">
+								<div className="show-img-line1"></div>
+								<div className={`show-img-line2 ${showCompletedTasks ? "active" : ""}`}></div>
+							</div>
+							Show competed
+						</button>
+					</div>
+				</div>
+				<TaskList
+					currentDirectory={currentDirectory}
+					changeTaskStatus={changeTaskStatus}
+					deleteTask={deleteTask}
+					getShowNewTaskForm={getShowNewTaskForm}
+				/>
 				<button
 					className="add-new-task"
 					onClick={() => {
@@ -128,7 +82,6 @@ export const TasksPage = () => {
 				>
 					<PlusImg /> <span>Add new task</span>
 				</button>
-				<button onClick={() => setShowCompletedTasks((prev) => !prev)}>Show competed tasks</button>
 			</div>
 			{showNewTaskForm ? (
 				<NewTaskForm
@@ -139,54 +92,11 @@ export const TasksPage = () => {
 				/>
 			) : null}
 			{showCompletedTasks ? (
-				<div className="tasks">
-					<ul className="task-list">
-						{currentDirectory.thisDirectoryTasks.map((task, index) => {
-							if (task.completed) {
-								return (
-									<li
-										key={task.taskId}
-										className={`${checkTaskPriority(task.priority)} checked`}
-										onClick={() => changeTaskStatus(index)}
-									>
-										<div className="task-container">
-											<div className="task-main">
-												<div className="task-wrapper">
-													<input
-														checked={task.completed}
-														onChange={() => {
-															changeTaskStatus(index);
-														}}
-														onClick={(event) => event.stopPropagation()}
-														className="checkbox"
-														type="checkbox"
-													/>
-													<label htmlFor="checkbox" className="task-name">
-														{task.taskName}
-													</label>
-												</div>
-												<div className="task-options">
-													<button
-														className="task-delete"
-														onClick={(event) => {
-															event.stopPropagation();
-															deleteTask(task);
-														}}
-													>
-														<DeleteImg />
-													</button>
-												</div>
-											</div>
-											{task.description && (
-												<div className="task-description">{task.description}</div>
-											)}
-										</div>
-									</li>
-								);
-							}
-						})}
-					</ul>
-				</div>
+				<CompletedTaskList
+					currentDirectory={currentDirectory}
+					changeTaskStatus={changeTaskStatus}
+					deleteTask={deleteTask}
+				/>
 			) : null}
 		</main>
 	);

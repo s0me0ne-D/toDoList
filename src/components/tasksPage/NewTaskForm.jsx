@@ -16,7 +16,7 @@ export const NewTaskForm = ({
 	const [description, setDescription] = useState("");
 	const getDescription = (event) => setDescription(event.target.value);
 
-	const [priority, setPriority] = useState("p3");
+	const [priority, setPriority] = useState("priority 3");
 	const changePriority = (event) => setPriority(event.target.value);
 
 	useEffect(() => {
@@ -31,26 +31,27 @@ export const NewTaskForm = ({
 	const onSubmit = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
-
-		const updatedTasks = [...tasks];
-		const updatedIndex = updatedTasks.findIndex((task) => task.id === currentDirectory.id);
-		if (editTaskIndex !== undefined) {
-			const newTask = { taskName, description, priority, taskId, completed: false };
-			updatedTasks[updatedIndex].thisDirectoryTasks.splice(editTaskIndex, 1, newTask);
-			setTasks(updatedTasks);
-			setEditTaskIndex("");
-		} else {
-			if (updatedIndex !== -1) {
-				updatedTasks[updatedIndex].thisDirectoryTasks.push({
-					taskName,
-					description,
-					priority,
-					taskId,
-					completed: false,
-				});
-
+		if (taskName !== "") {
+			const updatedTasks = [...tasks];
+			const updatedIndex = updatedTasks.findIndex((task) => task.id === currentDirectory.id);
+			if (editTaskIndex !== undefined) {
+				const newTask = { taskName, description, priority, taskId, completed: false };
+				updatedTasks[updatedIndex].thisDirectoryTasks.splice(editTaskIndex, 1, newTask);
 				setTasks(updatedTasks);
-				getShowNewTaskForm();
+				setEditTaskIndex("");
+			} else {
+				if (updatedIndex !== -1) {
+					updatedTasks[updatedIndex].thisDirectoryTasks.push({
+						taskName,
+						description,
+						priority,
+						taskId,
+						completed: false,
+					});
+
+					setTasks(updatedTasks);
+					getShowNewTaskForm();
+				}
 			}
 		}
 	};
@@ -88,9 +89,9 @@ export const NewTaskForm = ({
 						onChange={changePriority}
 						onKeyDown={(event) => (event.key === "Enter" ? onSubmit(event) : null)}
 					>
-						<option value="p1">p1</option>
-						<option value="p2">p2</option>
-						<option value="p3">p3</option>
+						<option value="priority 1">Priority 1</option>
+						<option value="priority 2">Priority 2</option>
+						<option value="priority 3">Priority 3</option>
 					</select>
 					<div className="new-task-buttons">
 						<button className="new-task-cancel" onClick={cancelBtn}>

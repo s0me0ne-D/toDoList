@@ -1,54 +1,83 @@
 import "./navBar.scss";
-import { useState } from "react";
-import NewDirectorieForm from "./NewDirectorieForm";
-import { NavLink } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import NewdirectoryForm from "./NewDirectoryForm";
+import { NavLink, useParams } from "react-router-dom";
 import { PlusImg } from "../../../icons/PlusImg";
 
 export const NavBar = ({ changeClassName, addNewTask, tasks }) => {
-	const [stateNewDirectorie, setStateNewDirectorie] = useState(false);
-	const createNewDirectorie = () => {
-		setStateNewDirectorie(!stateNewDirectorie);
+	const params = useParams();
+	const newDirectoryRef = useRef();
+	const addNewDirectoryRef = useRef();
+
+	const [stateNewdirectory, setStateNewdirectory] = useState(false);
+	const createNewdirectory = () => {
+		setStateNewdirectory(!stateNewdirectory);
 	};
 
-	const [newDirectorie, setNewDirectorie] = useState("");
-	const addNewDirectorie = (event) => {
-		setNewDirectorie(event.target.value);
+	const [newdirectory, setNewdirectory] = useState("");
+	const addNewdirectory = (event) => {
+		setNewdirectory(event.target.value);
 	};
-	const pushNewDirectorie = (event) => {
-		addNewTask(newDirectorie);
+	const pushNewdirectory = (event) => {
+		addNewTask(newdirectory);
 		event.preventDefault();
 		event.stopPropagation();
-		setStateNewDirectorie(false);
-		setNewDirectorie("");
+		setStateNewdirectory(false);
+		setNewdirectory("");
 	};
-	const directorieTitles = tasks.map((task) => `${task.title}-${task.id}`);
-	console.log(directorieTitles);
-
+	const directoryTitles = tasks.map((task) => `${task.title}-${task.id}`);
 	const getTitle = (direcrorie) => {
 		const index = direcrorie.indexOf("-");
 		return direcrorie.slice(0, index);
 	};
 
+	const [clickTarget, setClickTarget] = useState("");
+	useEffect(() => {
+		document.addEventListener("click", (event) => {
+			setClickTarget(event.target);
+		});
+	}, []);
+	useEffect(() => {
+		if (newDirectoryRef.current !== clickTarget && clickTarget !== addNewDirectoryRef.current) {
+			setStateNewdirectory(false);
+		}
+	}, [clickTarget]);
+
 	return (
 		<div className={changeClassName ? "navBar" : "navBar activeNavBar"}>
-			<ul className="directorie">
-				{directorieTitles.map((directorie) => (
-					<li key={directorie} className={"direcrorie-name"}>
-						<NavLink to={`/${directorie}`} className={"navBar-link"}>
+			<ul className="directory">
+				{directoryTitles.map((task, index) => (
+					<li
+						key={task}
+						className={`direcrory-name ${
+							params.directoryId === directoryTitles[index] ? "active" : ""
+						}`}
+					>
+						<NavLink to={`/${directoryTitles[index]}`} className={"navBar-link"}>
 							{" "}
-							{getTitle(directorie)}
+							{getTitle(directoryTitles[index])}
 						</NavLink>
 					</li>
 				))}
-				{stateNewDirectorie ? (
-					<NewDirectorieForm
-						onChange={addNewDirectorie}
-						onSubmit={pushNewDirectorie}
-						value={newDirectorie}
+				{stateNewdirectory ? (
+					<NewdirectoryForm
+						newDirectoryRef={newDirectoryRef}
+						onChange={addNewdirectory}
+						onSubmit={pushNewdirectory}
+						value={newdirectory}
 					/>
 				) : null}
 			</ul>
-			<button type="button" className="add-new-list-button" onClick={createNewDirectorie}>
+			<button
+				ref={addNewDirectoryRef}
+				type="button"
+				className="add-new-list-button"
+				onClick={(event) => {
+					createNewdirectory();
+					setClickTarget(addNewDirectoryRef.current);
+					event.stopPropagation();
+				}}
+			>
 				<PlusImg /> <span>Add new list</span>
 			</button>
 		</div>
