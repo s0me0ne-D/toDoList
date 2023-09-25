@@ -4,13 +4,15 @@ import "./header.scss";
 import { useLocalStorage } from "../../../hooks//useLocalStorage";
 export const Header = ({ onClick }) => {
 	const [checked, setChecked] = useState(false);
+
 	const [theme, setTheme] = useLocalStorage("", "theme");
 	const bodyElement = document.querySelector("body");
-	bodyElement.className = theme;
+	const whitchTheme = () => (theme === "" ? "light" : theme);
+	bodyElement.className = whitchTheme();
 	const toggleTheme = () => {
-		setTheme((prev) => (prev === "light" ? "dark" : "light"));
+		setTheme((prev) => (prev === "light" || prev === "" ? "dark" : "light"));
 	};
-	useEffect(() => setChecked(theme === "light" ? false : true), [theme]);
+	useEffect(() => setChecked(theme === "light" || theme === "" ? false : true), [theme]);
 
 	return (
 		<header className="header">
